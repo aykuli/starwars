@@ -2,8 +2,20 @@ import React from 'react';
 
 import './item-list.css';
 
-export default function ItemList() {
+const ItemList = () => {
     return (
-        <h1>ItemList</h1>
+        <ul className="item-list list-group">
+            <li className="list-group-item">
+                Luke Skywalker
+            </li>
+            <li className="list-group-item">
+                Darth Vader
+            </li>
+            <li className="list-group-item">
+               R2-D2
+            </li>
+        </ul>
     )
 }
+
+export default ItemList;
