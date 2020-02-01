@@ -1,6 +1,6 @@
 .random-planet {
     display: flex;
-    height: 195px;
+    min-height: 195px;
     padding: 1rem;
   }
   
