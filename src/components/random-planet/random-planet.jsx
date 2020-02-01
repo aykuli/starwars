@@ -7,10 +7,6 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator'
 
 export default class RandomPlanet extends Component {
-    constructor () {
-        super();
-        this.updatePlanet();
-    }
     state = {
         planet: {},
         isLoading: true,
@@ -19,24 +15,30 @@ export default class RandomPlanet extends Component {
 
     swapiService = new SwapiService();
 
+    componentDidMount() {
+        console.log('componentDidMount');
+        this.updatePlanet();
+        this.interval = setInterval(this.updatePlanet, 10000);
+    }
+
     onPlanetLoaded = (planet) => this.setState({planet, isLoading: false});
 
     onError = () => {
-        console.log('error jej')
         this.setState({
             isError: true,
             isLoading: false,
         });
     }
 
-    updatePlanet() {
-        const id = Math.floor(Math.random() * 25);
-        this.swapiService.getPlanet(150000)
+    updatePlanet = () => {
+        const id = Math.floor(Math.random() * 25) + 3;
+        this.swapiService.getPlanet(id)
             .then(this.onPlanetLoaded)
             .catch(this.onError);
     }
 
     render() {
+        console.log('render');
         const { planet, isLoading, isError } = this.state;
         const spinner = isLoading ? <Spinner /> : null;
         const errorMsg = isError ? <ErrorIndicator /> : null;
