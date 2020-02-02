@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import './person-details.css';
+import './item-details.css';
 
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
 import ErrorButton from '../error-button';
 
-export default class PersonDetail extends Component {
+export default class ItemDetail extends Component {
     state = {
         person: null,
         isLoaded: false,
@@ -48,7 +48,7 @@ export default class PersonDetail extends Component {
         const spinner = !isLoaded ? <Spinner /> : null;
         const info = isLoaded ? renderPersonInfo(person) : null;
         return (
-            <div className="person-details card">                
+            <div className="item-details card">                
                 {info}
                 {spinner}
             </div>
@@ -60,7 +60,7 @@ const renderPersonInfo = (person) => {
     const { id, name, gender, birthYear, eyeColor } = person;
     return (
         <>
-            <img    className="person-image"
+            <img    className="item-image"
                         src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
                         alt={name} />
             <div className="card-body">

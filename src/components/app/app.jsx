@@ -6,7 +6,7 @@ import SwapiService from '../../services/swapi-service';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
 import ItemList from '../item-list';
-import PersonDetails from '../person-details';
+import ItemDetail from '../item-details';
 import PeoplePage from '../people-page';
 import ErrorIndicator from '../error-indicator';
 import ErrorButton from '../error-button';
