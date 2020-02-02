@@ -1,32 +1,17 @@
-import React, { Component } from 'react';
-import Spinner from '../spinner';
+import React from 'react';
+import { SwapiServiceConsumer } from '../swapi-service-context';
 
-const withSwapiService = (View, getData) => {
-    return class extends Component {
-        state = {
-            data: null,
-        }
-    
-        onError = () => {
-            console.log('eror')
-        }
-    
-        componentDidMount() {        
-            getData()
-                .then(data => {
-                    this.setState({ data});
-                })
-                .catch(this.onError);            
-        }
-
-
-        render() {
-            const { data } = this.state;
-            
-            if (!data) return <Spinner />;
-
-            return <View {...this.props} data={data} />
-        }
+const withSwapiService = (Wrapped) => {
+    return (props) => {
+        return (
+            <SwapiServiceConsumer>
+                {
+                    (swapiService) => (
+                        <Wrapped {...props} swapiService={swapiService} />
+                    )
+                }
+            </SwapiServiceConsumer>
+        )
     }
 }
 
