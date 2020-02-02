@@ -2,42 +2,44 @@ import React, { Component } from 'react';
 
 import './item-list.css';
 
-import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
 
 class ItemList extends Component {
     state = {
-        peopleList: null,
+        itemList: null,
         isLoaded: false,
     }
-
-    swapiService = new SwapiService();
 
     onError = () => {
         console.log('eror')
     }
 
-    componentDidMount() {
-        this.swapiService.getAllPeople()
-            .then(peopleList => this.setState({ peopleList, isLoaded: true }))
+    componentDidMount() {        
+        const { getData } = this.props;
+        getData()
+            .then(itemList => this.setState({ itemList, isLoaded: true }))
             .catch(this.onError);
         
     }
     
     renderItems(list) {
-        return list.map(({ id, name}) => (
-            <li key={id} 
-                className="list-group-item"
-                onClick={() => this.props.onItemSelected(id)}>
-                {name}
-            </li>
-        ));
+        return list.map(( item ) => {
+            const { id } = item;
+            const label = this.props.children(item);
+            return (
+                <li key={id} 
+                    className="list-group-item"
+                    onClick={() => this.props.onItemSelected(id)}>
+                        {label}
+                </li>
+            )
+        });
     }
 
     render() {
-        const { peopleList, isLoaded } = this.state;
+        const { itemList, isLoaded } = this.state;
 
-        const elements = isLoaded ? this.renderItems(peopleList) : null;
+        const elements = isLoaded ? this.renderItems(itemList) : null;
         const spinner = !isLoaded ? <Spinner /> : null;
 
         return (

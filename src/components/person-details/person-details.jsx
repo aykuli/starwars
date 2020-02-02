@@ -21,7 +21,6 @@ export default class PersonDetail extends Component {
     updatePerson() {
         const { personId } = this.props;
         if (!personId) return;
-        console.log('updaig')
 
         this.swapiService.getPerson(personId)
             .then(this.onPersonLoaded)
@@ -31,7 +30,6 @@ export default class PersonDetail extends Component {
 
     onPersonLoaded = (person) => {
         this.setState({person, isLoaded: true});
-        console.log(this.state)
     }
 
     onError = () => {
@@ -44,9 +42,7 @@ export default class PersonDetail extends Component {
         }
     }
 
-    render() {
-        console.log('render happen')
-        
+    render() {        
         if (!this.state.person) return <span>Select person from list...</span>;
         const { person, isLoaded } = this.state;
         const spinner = !isLoaded ? <Spinner /> : null;
