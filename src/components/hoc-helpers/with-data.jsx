@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import Spinner from '../spinner';
 
 const withData = (View, getData) => {
@@ -18,7 +19,6 @@ const withData = (View, getData) => {
                 })
                 .catch(this.onError);            
         }
-
 
         render() {
             const { data } = this.state;
