@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 
 import Spinner from '../spinner';
+import ErrorIndicator from '../error-indicator';
 
 const withData = (View) => {
     return class extends Component {
         state = {
             data: null,
+            isLoading: true,
+            isError: false,
         }
     
         onError = () => {
-            console.log('eror')
+            this.setState({ isError: true, isLoading:false });
         }
     
         componentDidMount() {        
@@ -17,9 +20,10 @@ const withData = (View) => {
         }
 
         updateList() {
+            this.setState({ isLoading: true, error: false })
             this.props.getData()
                 .then(data => {
-                    this.setState({ data});
+                    this.setState({ data, isLoading: false, });
                 })
                 .catch(this.onError);   
         }
@@ -31,9 +35,10 @@ const withData = (View) => {
         }
 
         render() {
-            const { data } = this.state;
+            const { data, isLoading, isError } = this.state;
 
-            if (!data) return <Spinner />;
+            if (isLoading) return <Spinner />;
+            if (isError) return <ErrorIndicator />
 
             return <View {...this.props} data={data} />
         }

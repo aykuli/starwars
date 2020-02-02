@@ -13,7 +13,7 @@ const Header = ({ onServiceToggle }) => {
             </ul>
             <button 
                 className="btn btn-primary"
-                onClick={onServiceToggle}>Mock</button>
+                onClick={onServiceToggle}>Toggle data</button>
         </nav>
     )
 }
