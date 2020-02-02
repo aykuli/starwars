@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './app.css';
 
-// import SwapiService from '../../services/swapi-service';
+import SwapiService from '../../services/swapi-service';
 import DummySwapiService from '../../services/dummy-swapi-service';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
@@ -23,10 +23,9 @@ export default class App extends Component {
     state = {
         isShowRandomPlanet: true,
         isWasError: false,
+        swapiService: new DummySwapiService(),
     }
     
-    swapiService = new DummySwapiService();
-
     componentDidCatch() {
         console.log('catch error');
         this.setState({ isWasError: true });
@@ -34,6 +33,14 @@ export default class App extends Component {
 
     toggleRandomPlanet = () => {
         this.setState(prevState => this.setState({isShowRandomPlanet: !prevState.isShowRandomPlanet}));
+    }
+
+    onServiceToggle = () => {
+        this.setState(({ swapiService }) => {
+            const Service = swapiService instanceof SwapiService ? 
+                DummySwapiService : SwapiService;
+            return { swapiService: new Service() };
+        });
     }
 
     render() {  
@@ -45,9 +52,9 @@ export default class App extends Component {
 
         return (
             <ErrorBoundry>
-                <SwapiServiceProvider value={this.swapiService}>
+                <SwapiServiceProvider value={this.state.swapiService}>
                     <div className="stardb-app">
-                        <Header />
+                        <Header onServiceToggle={this.onServiceToggle}/>
                         {planet}
                         <Row left={<PersonList />} right={<PersonDetails itemId={5}/>} />
                         <Row left={<PlanetList />} right={<PlanetDetails itemId={10}/>} />
