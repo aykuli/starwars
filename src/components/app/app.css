@@ -1,7 +1,20 @@
-.container {
+#root {
     max-width: 1200px;
-    margin: auto;
+    margin: 50px auto;
+    padding: 20px 40px 40px 40px;
 
     box-shadow: 2px 2px 10px #585,
                 -2px -2px 10px #585;;
 }
+
+.button-row {
+    margin: 0 0 1rem 0;
+  }
+  
+  .button-row button {
+    margin-right: 1rem;
+  }
+  
+  .stardb-app .row {
+    margin: 40px auto;
+  }

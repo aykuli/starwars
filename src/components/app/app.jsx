@@ -4,32 +4,48 @@ import './app.css';
 
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import ItemList from '../item-list';
-import PersonDetails from '../person-details';
+import PeoplePage from '../people-page';
+import ErrorIndicator from '../error-indicator';
+import ErrorButton from '../error-button';
 
 export default class App extends Component {
     state = {
-        selectedPerson: 5,
+        isShowRandomPlanet: true,
+        isWasError: false,
     }
 
-    onPersonSelected = (id) => {
-        this.setState({ selectedPerson: id });
+    componentDidCatch() {
+        console.log('catch error');
+        this.setState({ isWasError: true });
     }
 
-    render() {
+    toggleRandomPlanet = () => {
+        this.setState(prevState => this.setState({isShowRandomPlanet: !prevState.isShowRandomPlanet}));
+    }
+
+    render() {  
+        const planet = this.state.isShowRandomPlanet ? <RandomPlanet /> : null;
+        if (this.state.isWasError)  {
+            return <ErrorIndicator />
+        }
+
         return (
-            <div className="container">
+            <div className="stardb-app">
                 <Header />
-                <RandomPlanet />
+                {planet}
 
-                <div className="row mb2">
-                    <div className="col-md-6">
-                        <ItemList onItemSelected={this.onPersonSelected}/>
-                    </div>
-                    <div className="col-md-6">
-                        <PersonDetails personId={this.state.selectedPerson}/>
-                    </div>
+                <div className="row mb2 button-row">
+                    <button className="toggle-planet btn btn-warning btn-lg"
+                            onClick={this.toggleRandomPlanet}>
+                        {this.state.isShowRandomPlanet ? 'Hide': 'Show'} random planet
+                    </button>
+                    <ErrorButton />
                 </div>
+
+                <PeoplePage />
+                <PeoplePage />
+                <PeoplePage />
+                <PeoplePage />
             </div>
         );
     }
