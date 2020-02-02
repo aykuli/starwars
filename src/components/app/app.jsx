@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './app.css';
 
 import SwapiService from '../../services/swapi-service';
+import DummySwapiService from '../../services/dummy-swapi-service';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
 import ErrorIndicator from '../error-indicator';
@@ -24,7 +25,7 @@ export default class App extends Component {
         isWasError: false,
     }
     
-    swapiService = new SwapiService();
+    swapiService = new DummySwapiService();
 
     componentDidCatch() {
         console.log('catch error');
