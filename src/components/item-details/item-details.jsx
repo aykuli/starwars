@@ -2,85 +2,81 @@ import React, { Component } from 'react';
 
 import './item-details.css';
 
-import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
 import ErrorButton from '../error-button';
 
-export default class ItemDetail extends Component {
-    state = {
-        person: null,
-        isLoaded: false,
-    }
+const Record = ({ item, field, label}) => {
+    return (        
+        <li className="list-group-item">
+        <span className="term">{label}</span>
+        <span>{item[field]}</span>
+    </li>
+    )
+};
 
-    swapiService = new SwapiService();
+export { Record };
+
+export default class ItemDetails extends Component {
+    state = {
+        item: null,
+        isLoaded: false,
+        image: null,
+    }
 
     componentDidMount() {
-        this.updatePerson();
+        this.updateItem();
     }
 
-    updatePerson() {
-        const { personId } = this.props;
-        if (!personId) return;
+    updateItem() {
+        const { itemId, getData, getImgUrl } = this.props;
+        if (!itemId) return;
 
-        this.swapiService.getPerson(personId)
-            .then(this.onPersonLoaded)
+        getData(itemId)
+            .then(item => this.setState({
+                item, 
+                isLoaded: true,
+                image: getImgUrl(item.id),
+            }))
             .catch(this.onError);
 
     }
-
-    onPersonLoaded = (person) => {
-        this.setState({person, isLoaded: true});
-    }
-
     onError = () => {
         console.log('eror')
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.personId !== prevProps.personId) {
-            this.updatePerson();
+        if (this.props.itemId !== prevProps.itemId) {
+            this.updateItem();
         }
     }
 
     render() {        
-        if (!this.state.person) return <span>Select person from list...</span>;
-        const { person, isLoaded } = this.state;
+        const { item, isLoaded, image } = this.state;
+
+        if (!this.state.item) return <span>Select item from list...</span>;
+
+        const { name } = item;
+
         const spinner = !isLoaded ? <Spinner /> : null;
-        const info = isLoaded ? renderPersonInfo(person) : null;
+       
         return (
             <div className="item-details card">                
-                {info}
+                <img    className="item-image"
+                        src={image}
+                        alt={name} />
+                <div className="card-body">
+                    <h4>{name}</h4>
+                    <ul className="list-group list-group-flush">
+                        {
+                            React.Children.map(this.props.children, child => {
+                                return React.cloneElement(child, { item });
+                            })
+                        }                      
+                    </ul>
+                    <ErrorButton />
+                </div>
                 {spinner}
             </div>
         );
     }
-}
-
-const renderPersonInfo = (person) => {
-    const { id, name, gender, birthYear, eyeColor } = person;
-    return (
-        <>
-            <img    className="item-image"
-                        src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-                        alt={name} />
-            <div className="card-body">
-                <h4>{name}</h4>
-                <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                        <span className="term">Gender</span>
-                        <span>{gender}</span>
-                    </li>
-                    <li className="list-group-item">
-                        <span className="term">Birth year</span>
-                        <span>{birthYear}</span>
-                    </li>
-                    <li className="list-group-item">
-                        <span className="term">Eye color</span>
-                        <span>{eyeColor}</span>
-                    </li>
-                </ul>
-                <ErrorButton />
-            </div>
-        </>
-    )
 }
