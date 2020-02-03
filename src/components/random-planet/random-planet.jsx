@@ -7,6 +7,19 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator'
 
 export default class RandomPlanet extends Component {
+    static defaultProp = {
+        updateInterval: 10000,
+    }
+    
+    static propTypes = {
+        updateInterval: (props, propName,componentName) => {
+            const value = props[propName];
+
+            if (typeof value === 'number' && !isNaN(value)) return null;
+            return new TypeError(`${componentName}: ${propName} must be number`);
+        },
+    }
+
     state = {
         planet: {},
         isLoading: true,
@@ -15,9 +28,6 @@ export default class RandomPlanet extends Component {
 
     swapiService = new SwapiService();
 
-    static defaultProp = {
-        updateInterval: 3000,
-    }
 
     componentDidMount() {
         const { updateInterval } = this.props;

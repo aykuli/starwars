@@ -34,13 +34,14 @@ export default class App extends Component {
         if (this.state.isWasError)  {
             return <ErrorIndicator />
         }
+        const updateInterval = Number("10000");
 
         return (
             <ErrorBoundry>
                 <SwapiServiceProvider value={this.state.swapiService}>
                     <div className="stardb-app">
                         <Header onServiceToggle={this.onServiceToggle}/>
-                        <RandomPlanet updateInterval={2000} />
+                        <RandomPlanet updateInterval={updateInterval} />
 
                         <PeoplePage />
                         <PlanetPage />
