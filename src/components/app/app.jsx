@@ -34,7 +34,7 @@ export default class App extends Component {
         if (this.state.isWasError)  {
             return <ErrorIndicator />
         }
-        const updateInterval = Number("2000");
+        const updateInterval = Number("20000");
 
         return (
             <ErrorBoundry>
@@ -44,6 +44,7 @@ export default class App extends Component {
                             <Header onServiceToggle={this.onServiceToggle}/>
                             <RandomPlanet updateInterval={updateInterval} />
 
+                            <Route exact path="/" render={() => <h2>Welcome to StarWars data-base</h2>} />
                             <Route path="/people" component={PeoplePage} />
                             <Route path="/planets" component={PlanetPage} />
                             <Route path="/starships" component={StarshipPage} />
