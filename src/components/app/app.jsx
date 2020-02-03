@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRruter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './app.css';
 
@@ -44,9 +44,9 @@ export default class App extends Component {
                             <Header onServiceToggle={this.onServiceToggle}/>
                             <RandomPlanet updateInterval={updateInterval} />
 
-                            <PeoplePage />
-                            <PlanetPage />
-                            <StarshipPage />
+                            <Route path="/people" component={PeoplePage} />
+                            <Route path="/planets" component={PlanetPage} />
+                            <Route path="/starships" component={StarshipPage} />
                         </div>
                     </Router>
                 </SwapiServiceProvider>
