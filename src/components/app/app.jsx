@@ -11,6 +11,7 @@ import ErrorIndicator from '../error-indicator';
 import ErrorBoundry from '../error-boundry';
 import { SwapiServiceProvider } from '../swapi-service-context';
 import { PeoplePage, PlanetPage, StarshipPage } from '../pages';
+import { StarshipDetails } from '../sw-components';
 
 export default class App extends Component {
     state = {
@@ -44,10 +45,12 @@ export default class App extends Component {
                             <Header onServiceToggle={this.onServiceToggle}/>
                             <RandomPlanet updateInterval={updateInterval} />
 
-                            <Route exact path="/" render={() => <h2>Welcome to StarWars data-base</h2>} />
+                            <Route path="/" exact render={() => <h2 className="main-page">Welcome to StarWars data-base</h2>} />
+                            <Route path="/people" render={() => <h2 className="main-page">Welcome to people page</h2>} />
                             <Route path="/people" component={PeoplePage} />
                             <Route path="/planets" component={PlanetPage} />
-                            <Route path="/starships" component={StarshipPage} />
+                            <Route path="/starships" exact component={StarshipPage} />
+                            <Route path="/starships/:id" render={({ match: {params: {id}}}) => <StarshipDetails itemId={id}/>} />
                         </div>
                     </Router>
                 </SwapiServiceProvider>
