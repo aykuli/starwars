@@ -18,7 +18,6 @@ export default class App extends Component {
     }
     
     componentDidCatch() {
-        console.log('catch error');
         this.setState({ isWasError: true });
     }
 
@@ -34,7 +33,7 @@ export default class App extends Component {
         if (this.state.isWasError)  {
             return <ErrorIndicator />
         }
-        const updateInterval = Number("10000");
+        const updateInterval = Number("2000");
 
         return (
             <ErrorBoundry>
