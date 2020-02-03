@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRruter as Router, Route } from 'react-router-dom';
 
 import './app.css';
 
@@ -38,14 +39,16 @@ export default class App extends Component {
         return (
             <ErrorBoundry>
                 <SwapiServiceProvider value={this.state.swapiService}>
-                    <div className="stardb-app">
-                        <Header onServiceToggle={this.onServiceToggle}/>
-                        <RandomPlanet updateInterval={updateInterval} />
+                    <Router>
+                        <div className="stardb-app">
+                            <Header onServiceToggle={this.onServiceToggle}/>
+                            <RandomPlanet updateInterval={updateInterval} />
 
-                        <PeoplePage />
-                        <PlanetPage />
-                        <StarshipPage />
-                    </div>
+                            <PeoplePage />
+                            <PlanetPage />
+                            <StarshipPage />
+                        </div>
+                    </Router>
                 </SwapiServiceProvider>
             </ErrorBoundry>
         );
