@@ -10,17 +10,28 @@ import RandomPlanet from '../random-planet';
 import ErrorIndicator from '../error-indicator';
 import ErrorBoundry from '../error-boundry';
 import { SwapiServiceProvider } from '../swapi-service-context';
-import { PeoplePage, PlanetPage, StarshipPage } from '../pages';
+import { 
+    PeoplePage, 
+    PlanetPage, 
+    StarshipPage,
+    LoginPage, 
+    SecretPage 
+} from '../pages';
 import { StarshipDetails } from '../sw-components';
 
 export default class App extends Component {
     state = {
         isWasError: false,
         swapiService: new SwapiService(),
+        isLoggedIn: false,
     }
     
     componentDidCatch() {
         this.setState({ isWasError: true });
+    }
+
+    onLogin = () => {
+        this.setState({ isLoggedIn: true});
     }
 
     onServiceToggle = () => {
@@ -36,6 +47,7 @@ export default class App extends Component {
             return <ErrorIndicator />
         }
         const updateInterval = Number("20000");
+        const { isLoggedIn } = this.state;
 
         return (
             <ErrorBoundry>
@@ -50,11 +62,12 @@ export default class App extends Component {
                             <Route  path="/" 
                                     exact 
                                     render={() => <h2 className="main-page">Welcome to StarWars data-base</h2>} />
+                            
                             <Route  path="/people"
-                                    exact
-                                    render={() => <h2 className="main-page">Welcome to people page</h2>} />
+                                    render={() => <h2 className="main-page">People</h2>} />
                             <Route  path="/people" 
                                     component={PeoplePage} />
+                            
                             <Route  path="/planets" 
                                     component={PlanetPage} />
                             <Route  path="/starships" 
@@ -62,6 +75,17 @@ export default class App extends Component {
                                     component={StarshipPage} />
                             <Route  path="/starships/:id" 
                                     render={({ match: {params: {id}}}) => <StarshipDetails itemId={id}/>} />
+
+                            <Route  
+                                path="/login"
+                                render={() => 
+                                    <LoginPage 
+                                        isLoggedIn={isLoggedIn}
+                                        onLogin={this.onLogin}/>} />
+                            <Route  
+                                path="/secret"
+                                render={() => 
+                                    <SecretPage isLoggedIn={isLoggedIn }/>} />
                         </div>
                     </Router>
                 </SwapiServiceProvider>

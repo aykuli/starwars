@@ -1,13 +1,21 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { PersonList } from '../sw-components';
+import Row from '../row';
+import {
+    PersonList,
+    PersonDetails,
+} from '../sw-components';
 
-const PeoplePage = ({ history }) => (
-    <PersonList onItemSelected={(itemId) => {
-        history.push(`/people/${itemId}`)
-    }}/>    
-);
+const PeoplePage = ({ history, match }) => {
+    const { id } = match.params;
+    return (
+        <Row 
+            left={<PersonList onItemSelected={(id) => history.push(`/people/${id}`)} />} 
+            right={<PersonDetails itemId={id} />}
+        />
+    );
+};
     
 
 export default withRouter(PeoplePage);
