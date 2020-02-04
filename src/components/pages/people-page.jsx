@@ -11,7 +11,7 @@ const PeoplePage = ({ history, match }) => {
     const { id } = match.params;
     return (
         <Row 
-            left={<PersonList onItemSelected={(id) => history.push(`/people/${id}`)} />} 
+            left={<PersonList onItemSelected={(id) => history.push(id)} />} 
             right={<PersonDetails itemId={id} />}
         />
     );
